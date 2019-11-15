@@ -54,7 +54,7 @@ module Eneroth
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
       def enableVCB?
-        true
+        @state == STATE_START
       end
 
       # @api
@@ -90,8 +90,14 @@ module Eneroth
 
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
-      def onUserText(view, text)
-        # TODO: Parse scale. Set @scale if valid.
+      def onUserText(text, _view)
+        scale = Scale.new(text)
+        unless scale.valid?
+          UI.messagebox("Invalid scale.")
+          return
+        end
+
+        @scale = scale
       end
 
       # @api
@@ -138,7 +144,6 @@ module Eneroth
       end
 
       def update_status_text
-        # REVIEW: Should VCB even show length or only scale?
         case @state
         when STATE_START
           Sketchup.status_text =
