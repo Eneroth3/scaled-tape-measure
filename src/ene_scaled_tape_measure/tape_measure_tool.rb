@@ -11,14 +11,15 @@ module Eneroth
       # Identifier for tool state for picking end point.
       STATE_MEASURE = 1
 
+      # Scale to measure with respect to.
+      @@scale ||= Scale.new("1:1")
+
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
       def activate
         super
 
         @state = STATE_START
-        # TODO: Keep scale between tool sessions.
-        @scale = Scale.new("1:1")
         @start_ip = Sketchup::InputPoint.new
         @end_ip = Sketchup::InputPoint.new
 
@@ -97,7 +98,7 @@ module Eneroth
           return
         end
 
-        @scale = scale
+        @@scale = scale
       end
 
       # @api
@@ -124,7 +125,7 @@ module Eneroth
 
       # @return [Length]
       def length
-        (measure_vector.length * @scale.factor).to_l
+        (measure_vector.length * @@scale.factor).to_l
       end
 
       def measure_vector
@@ -140,7 +141,7 @@ module Eneroth
       def output
         return "" unless @end_ip.valid?
 
-        "#{length} (#{@scale})"
+        "#{length} (#{@@scale})"
       end
 
       def update_status_text
@@ -149,7 +150,7 @@ module Eneroth
           Sketchup.status_text =
             "Type in scale or select point or edge to measure from."
           Sketchup.vcb_label = "Scale"
-          Sketchup.vcb_value = @scale.to_s
+          Sketchup.vcb_value = @@scale.to_s
         when STATE_MEASURE
           Sketchup.status_text = "Select point to measure to."
           Sketchup.vcb_label = "Length"

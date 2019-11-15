@@ -53,6 +53,10 @@ Layout/IndentArray:
 Layout/IndentHash:
   EnforcedStyle: consistent
 
+# Class vars can be used, but only if you know why you are using them.
+Style/ClassVars:
+  Enabled: false
+
 # False positives for modules documented in one file but not another, e.g.
 # extension wrapper.
 Style/Documentation:
