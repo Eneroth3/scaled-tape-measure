@@ -141,12 +141,14 @@ module Eneroth
         # REVIEW: Should VCB even show length or only scale?
         case @state
         when STATE_START
-          Sketchup.status_text = "Type in scale or click to start measure."
+          Sketchup.status_text =
+            "Type in scale or select point or edge to measure from."
           Sketchup.vcb_label = "Scale"
           Sketchup.vcb_value = @scale.to_s
         when STATE_MEASURE
-          Sketchup.status_text = "Click to end measure."
+          Sketchup.status_text = "Select point to measure to."
           Sketchup.vcb_label = "Length"
+          Sketchup.vcb_value = output
         end
       end
     end
