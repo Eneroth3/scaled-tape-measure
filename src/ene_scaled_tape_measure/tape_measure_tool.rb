@@ -49,6 +49,7 @@ module Eneroth
           view.tooltip = @start_ip.tooltip
         when STATE_MEASURE
           view.tooltip = output
+          view.line_width = view.inference_locked? ? 3 : 1
           draw_arrow(@start_ip.position, @end_ip.position, view)
         end
       end
@@ -99,6 +100,24 @@ module Eneroth
           @end_ip.pick(view, x, y)
           Sketchup.vcb_value = output
         end
+        view.invalidate
+      end
+
+      # @api
+      # @see https://ruby.sketchup.com/Sketchup/Tool.html
+      def onKeyDown(key, _repeat, _flags, view)
+        return unless key == CONSTRAIN_MODIFIER_KEY
+
+        view.lock_inference(@state == STATE_START ? @start_ip : @end_ip)
+        view.invalidate
+      end
+
+      # @api
+      # @see https://ruby.sketchup.com/Sketchup/Tool.html
+      def onKeyUp(key, _repeat, _flags, view)
+        return unless key == CONSTRAIN_MODIFIER_KEY
+
+        view.lock_inference
         view.invalidate
       end
 
