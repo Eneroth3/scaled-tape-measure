@@ -92,10 +92,6 @@ class Eneroth::ScaledTapeMeasure::Scale
   #
   # @return [Numeric, nil]
   def factor
-    # REVIEW: Scale factor can have some floating point precision noise from
-    # unit conversion. Perhaps it should be detected if string contains unit
-    # information when parsing, and no length conversion be made when not?
-    #  Scale.new("30%").facto => 0.30000000000000004
     @factor if valid?
   end
 
@@ -202,18 +198,25 @@ class Eneroth::ScaledTapeMeasure::Scale
   FLOAT_TOLERANCE = 1.0e-10
   private_constant :FLOAT_TOLERANCE
 
+  # Parse factor from string.
+  #
+  # @param string [String]
+  #
+  # @return [Float, nil]
   def parse(string)
-    # REVIEW: What to do if starting with ~?
-    return if string.empty?
-
-    division = string.split(/:|=/)
-    return if division.size > 2
-
-    division.map! { |r| parse_length(r) }
-    division[1] ||= "1".to_l
-    return unless division[0]
-
-    division[0] / division[1]
+    string = string.tr(",", ".").delete("~")
+    if (match = string.match(/^(\d*\.?\d*)$/))
+      match[1].to_f
+    elsif (match = string.match(/^(\d*\.?\d*)%$/))
+      match[1].to_f / 100
+    elsif (match = string.match(/^(\d*\.?\d*):(\d*\.?\d*)$/))
+      match[1].to_f / match[2].to_f
+    elsif (match = string.match(/^(.+)\=(.+)$/))
+      match[1].strip.to_l / match[2].strip.to_l
+    end
+  rescue ArgumentError
+    # to_l raises when string isn't a valid length.
+    nil
   end
 
   def parse_length(string)
