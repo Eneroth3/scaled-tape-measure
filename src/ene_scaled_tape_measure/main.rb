@@ -1,6 +1,6 @@
 module Eneroth
   module ScaledTapeMeasure
-    Sketchup.require "#{PLUGIN_ROOT}/tape_measure_tool.rb"
+    Sketchup.require "#{PLUGIN_ROOT}/tape_measure_tool"
 
     # Reload extension.
     #

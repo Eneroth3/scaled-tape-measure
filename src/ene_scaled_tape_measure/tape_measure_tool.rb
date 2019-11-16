@@ -1,7 +1,7 @@
 module Eneroth
   module ScaledTapeMeasure
-    Sketchup.require "#{PLUGIN_ROOT}/tool.rb"
-    Sketchup.require "#{PLUGIN_ROOT}/vendor/scale.rb"
+    Sketchup.require "#{PLUGIN_ROOT}/tool"
+    Sketchup.require "#{PLUGIN_ROOT}/vendor/scale"
 
     # Tool for measuring length with respect to custom scale.
     class TapeMeasureTool < Tool
