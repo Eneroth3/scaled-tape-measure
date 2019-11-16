@@ -149,8 +149,8 @@ module Eneroth
       # @api
       # @see https://extensions.sketchup.com/en/content/eneroth-tool-memory
       def ene_tool_cycler_icon
-        # TODO: Make icon.
-        File.join(PLUGIN_ROOT, "images", "tape_measure.svg")
+        File.join(PLUGIN_ROOT, "images", "icon.svg")
+      end
 
       private
 
