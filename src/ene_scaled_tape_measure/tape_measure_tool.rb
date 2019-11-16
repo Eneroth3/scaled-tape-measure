@@ -135,7 +135,8 @@ module Eneroth
       def onUserText(text, _view)
         scale = Scale.new(text)
         unless scale.valid?
-          UI.messagebox("Invalid scale.")
+          msg = "Invalid scale.\n\nEnter a scale such as 1:100 or 1\"=4'."
+          UI.messagebox(msg)
           return
         end
 
