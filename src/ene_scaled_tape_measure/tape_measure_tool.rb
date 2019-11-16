@@ -14,6 +14,9 @@ module Eneroth
       # Size of arrow head.
       ARROW_HEAD_SIZE = 8
 
+      # ID for tool cursor.
+      CURSOR = UI.create_cursor("#{PLUGIN_ROOT}/images/cursor.svg", 6, 24)
+
       # Scale to measure with respect to.
       @@scale ||= Scale.new("1:1")
 
@@ -75,6 +78,12 @@ module Eneroth
       def onCancel(_reason, _view)
         reset
         view.invalidate
+      end
+
+      # @api
+      # @see https://ruby.sketchup.com/Sketchup/Tool.html
+      def onSetCursor
+        UI.set_cursor(CURSOR)
       end
 
       # @api
