@@ -135,8 +135,7 @@ module Eneroth
       def onUserText(text, _view)
         scale = Scale.new(text)
         unless scale.valid?
-          msg = "Invalid scale.\n\nEnter a scale such as 1:100 or 1\"=4'."
-          UI.messagebox(msg)
+          UI.messagebox(OB["invalid_scale"])
           return
         end
 
@@ -154,6 +153,12 @@ module Eneroth
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
       def suspend(view)
         view.invalidate
+      end
+
+      # @api
+      # @see https://extensions.sketchup.com/en/content/eneroth-tool-memory
+      def ene_tool_cycler_name
+        OB["tool_name"]
       end
 
       # @api
@@ -212,13 +217,12 @@ module Eneroth
       def update_status_text
         case @state
         when STATE_START
-          Sketchup.status_text =
-            "Type in scale or select point or edge to measure from."
-          Sketchup.vcb_label = "Scale"
+          Sketchup.status_text = OB["status_start"]
+          Sketchup.vcb_label = OB["label_start"]
           Sketchup.vcb_value = @@scale.to_s
         when STATE_MEASURE
-          Sketchup.status_text = "Select point to measure to."
-          Sketchup.vcb_label = "Length"
+          Sketchup.status_text = OB["status_measure"]
+          Sketchup.vcb_label = OB["label_measure"]
           Sketchup.vcb_value = output
         end
       end

@@ -1,0 +1,13 @@
+{
+  "name": {"native":"English"},
+  "dictionary": {
+    "tool_name": "Scaled Tape Measure",
+    "status_start": "Type in scale or select point or edge to measure from.",
+    "label_start": "Scale",
+    "status_measure": "Select point to measure to.",
+    "label_measure": "Length",
+    "invalid_scale": "Invalid scale.\n\nEnter a scale such as 1100 or 1\"=4'.",
+    "lang_option": "Language",
+    "system_lang_name": "System Default"
+  }
+}

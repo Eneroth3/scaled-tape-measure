@@ -1,0 +1,13 @@
+{
+  "name": {"native":"Svenska"},
+  "dictionary": {
+    "tool_name": "Skalat måttband",
+    "status_start": "Skriv in skala eller välj kant eller punkt att mäta från.",
+    "label_start": "Skala",
+    "status_measure": "Välj punkt att mäta till.",
+    "label_measure": "Längd",
+    "invalid_scale": "Ogiltig skala.\n\nSkriv in en skala såsom 1100 eller 1\"=4'.",
+    "lang_option": "Språk",
+    "system_lang_name": "Systemstandard"
+  }
+}

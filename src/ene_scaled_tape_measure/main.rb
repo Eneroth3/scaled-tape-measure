@@ -1,5 +1,11 @@
 module Eneroth
   module ScaledTapeMeasure
+    Sketchup.require "#{PLUGIN_ROOT}/vendor/ordbok/ordbok"
+    Sketchup.require "#{PLUGIN_ROOT}/vendor/ordbok/lang_menu"
+
+    # Ordbok object.
+    OB = Ordbok.new
+
     Sketchup.require "#{PLUGIN_ROOT}/tape_measure_tool"
 
     # Reload extension.
@@ -27,10 +33,18 @@ module Eneroth
     unless @loaded
       @loaded = true
 
-      cmd = UI::Command.new(EXTENSION.name) { TapeMeasureTool.activate }
-      cmd.set_validation_proc { TapeMeasureTool.command_state }
+      menu = UI.menu("Plugins").add_submenu(EXTENSION.name)
 
-      UI.menu("Plugins").add_item(cmd)
+      cmd = UI::Command.new(OB["tool_name"]) { TapeMeasureTool.activate }
+      cmd.set_validation_proc { TapeMeasureTool.command_state }
+      menu.add_item(cmd)
+
+      menu.add_separator
+
+      OB.lang_menu(
+        menu.add_submenu(OB[:lang_option]),
+        system_lang_name: OB[:system_lang_name]
+      )
     end
   end
 end
