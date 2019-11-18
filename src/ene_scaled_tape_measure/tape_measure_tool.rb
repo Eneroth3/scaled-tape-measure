@@ -2,6 +2,9 @@ module Eneroth
   module ScaledTapeMeasure
     Sketchup.require "#{PLUGIN_ROOT}/tool"
     Sketchup.require "#{PLUGIN_ROOT}/vendor/scale"
+    Sketchup.require "#{PLUGIN_ROOT}/vendor/refined_input_point"
+
+    using RefinedInputPoint
 
     # Tool for measuring length with respect to custom scale.
     class TapeMeasureTool < Tool
@@ -53,7 +56,12 @@ module Eneroth
         when STATE_MEASURE
           view.tooltip = output
           view.line_width = view.inference_locked? ? 3 : 1
-          draw_arrow(@start_ip.position, @end_ip.position, view)
+          draw_arrow(@start_ip.position, measure_end, view)
+
+          view.line_width = 1
+          view.line_stipple = "_"
+          view.set_color_from_line(@end_ip.position, measure_end)
+          view.draw(GL_LINES, [@end_ip.position, measure_end])
         end
       end
 
@@ -69,13 +77,14 @@ module Eneroth
         bb = Sketchup.active_model.bounds
         bb.add(@start_ip.position)
         bb.add(@end_ip.position)
+        bb.add(measure_end) if @end_ip.valid?
 
         bb
       end
 
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
-      def onCancel(_reason, _view)
+      def onCancel(_reason, view)
         reset
         view.invalidate
       end
@@ -197,9 +206,18 @@ module Eneroth
         (measure_vector.length * @@scale.factor).to_l
       end
 
+      def measure_end
+        if @start_ip.degrees_of_freedom == 1 && @start_ip.freedom_constraint
+          plane = [@start_ip.position, @start_ip.freedom_constraint]
+          return @end_ip.position.project_to_plane(plane)
+        end
+
+        @end_ip.position
+      end
+
       # @return [Geom::Vector3d]
       def measure_vector
-        @end_ip.position - @start_ip.position
+        measure_end - @start_ip.position
       end
 
       def reset
