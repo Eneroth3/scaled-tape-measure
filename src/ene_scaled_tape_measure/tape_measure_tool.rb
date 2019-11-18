@@ -61,6 +61,7 @@ module Eneroth
           draw_arrow(@start_ip.position, measure_end, view)
         end
 
+        view.line_width = 1
         @start_ip.draw(view)
         @end_ip.draw(view)
       end
