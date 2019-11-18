@@ -47,9 +47,6 @@ module Eneroth
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
       def draw(view)
-        @start_ip.draw(view)
-        @end_ip.draw(view)
-
         case @state
         when STATE_START
           view.tooltip = @start_ip.tooltip
@@ -60,9 +57,11 @@ module Eneroth
 
           view.line_width = 1
           view.line_stipple = "_"
-          view.set_color_from_line(@end_ip.position, measure_end)
           view.draw(GL_LINES, [@end_ip.position, measure_end])
         end
+
+        @start_ip.draw(view)
+        @end_ip.draw(view)
       end
 
       # @api
