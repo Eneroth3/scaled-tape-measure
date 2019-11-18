@@ -52,12 +52,13 @@ module Eneroth
           view.tooltip = @start_ip.tooltip
         when STATE_MEASURE
           view.tooltip = output
-          view.line_width = view.inference_locked? ? 3 : 1
-          draw_arrow(@start_ip.position, measure_end, view)
 
-          view.line_width = 1
           view.line_stipple = "_"
           view.draw(GL_LINES, [@end_ip.position, measure_end])
+
+          view.line_stipple = ""
+          view.line_width = view.inference_locked? ? 3 : 1
+          draw_arrow(@start_ip.position, measure_end, view)
         end
 
         @start_ip.draw(view)
