@@ -3,11 +3,14 @@ module Eneroth
     Sketchup.require "#{PLUGIN_ROOT}/tool"
     Sketchup.require "#{PLUGIN_ROOT}/vendor/scale"
     Sketchup.require "#{PLUGIN_ROOT}/vendor/refined_input_point"
+    Sketchup.require "#{PLUGIN_ROOT}/vendor/inference_lock"
 
     using RefinedInputPoint
 
     # Tool for measuring length with respect to custom scale.
     class TapeMeasureTool < Tool
+      include InferenceLock
+
       # Identifier of tool state for picking start point.
       STATE_START = 0
 
@@ -40,7 +43,7 @@ module Eneroth
       def deactivate(view)
         super
 
-        reset
+        reset(view)
         view.invalidate
       end
 
@@ -86,7 +89,7 @@ module Eneroth
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
       def onCancel(_reason, view)
-        reset
+        reset(view)
         view.invalidate
       end
 
@@ -103,7 +106,7 @@ module Eneroth
         when STATE_START
           @state = STATE_MEASURE
         when STATE_MEASURE
-          reset
+          reset(view)
           view.invalidate
         end
         update_status_text
@@ -112,6 +115,8 @@ module Eneroth
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
       def onMouseMove(_flags, x, y, view)
+        super
+
         case @state
         when STATE_START
           @start_ip.pick(view, x, y)
@@ -119,24 +124,6 @@ module Eneroth
           @end_ip.pick(view, x, y)
           Sketchup.vcb_value = output
         end
-        view.invalidate
-      end
-
-      # @api
-      # @see https://ruby.sketchup.com/Sketchup/Tool.html
-      def onKeyDown(key, _repeat, _flags, view)
-        return unless key == CONSTRAIN_MODIFIER_KEY
-
-        view.lock_inference(@state == STATE_START ? @start_ip : @end_ip)
-        view.invalidate
-      end
-
-      # @api
-      # @see https://ruby.sketchup.com/Sketchup/Tool.html
-      def onKeyUp(key, _repeat, _flags, view)
-        return unless key == CONSTRAIN_MODIFIER_KEY
-
-        view.lock_inference
         view.invalidate
       end
 
@@ -178,6 +165,18 @@ module Eneroth
       end
 
       private
+
+      # @api
+      # @see `ToolInference`
+      def current_ip
+        @state == STATE_START ? @start_ip : @end_ip
+      end
+
+      # @api
+      # @see `ToolInference`
+      def start_ip
+        @start_ip
+      end
 
       def draw_arrow(point1, point2, view)
         return if point1 == point2
@@ -221,8 +220,10 @@ module Eneroth
         measure_end - @start_ip.position
       end
 
-      def reset
+      def reset(view)
         @end_ip.clear
+        @start_ip.clear
+        view.lock_inference
         @state = STATE_START
       end
 
