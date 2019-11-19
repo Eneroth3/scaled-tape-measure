@@ -35,7 +35,7 @@ module Eneroth::ScaledTapeMeasure::InferenceLock
     end
 
     # Emulate mouse move to update InputPoint picking.
-    onMouseMove(0, @mouse_x, @mouse_y, view)
+    onMouseMove(0, @mouse_x, @mouse_y, view) if @mouse_x && @mouse_y
     view.invalidate
   end
 
@@ -48,7 +48,7 @@ module Eneroth::ScaledTapeMeasure::InferenceLock
     # Unlock inference.
     view.lock_inference
     # Emulate mouse move to update InputPoint picking.
-    onMouseMove(0, @mouse_x, @mouse_y, view)
+    onMouseMove(0, @mouse_x, @mouse_y, view) if @mouse_x && @mouse_y
     view.invalidate
   end
 
