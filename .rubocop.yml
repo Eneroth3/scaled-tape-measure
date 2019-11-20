@@ -7,34 +7,57 @@ AllCops:
   SketchUp:
     TargetSketchUpVersion: 2017
 
+# Too noisy. Rely on MethodLength instead.
 Metrics/AbcSize:
   Enabled: false
-
 Metrics/CyclomaticComplexity:
   Enabled: false
-
 Metrics/PerceivedComplexity:
   Enabled: false
 
-# Aim for 10 lines and less in each methods but accept slightly longer ones.
+# Aim for 10 lines or less but accept longer ones when things can't be extracted
+# to sensible methods.
 Metrics/MethodLength:
   Max: 20
 
-# Need to use camelCase for SketchUp API, otherwise use snake_case.
+# SketchUp Tool interface and observer interfaces don't follow Ruby naming
+# conventions.
+# TODO: Add Observer methods.
 Naming/MethodName:
-  Enabled: false
+  IgnoredPatterns:
+    - '^\s*enableVCB\?(\(.*\))?$'
+    - '^\s*getExtents(\(.*\))?$'
+    - '^\s*getInstructorContentDirectory(\(.*\))?$'
+    - '^\s*getMenu(\(.*\))?$'
+    - '^\s*onCancel(\(.*\))?$'
+    - '^\s*onKeyDown(\(.*\))?$'
+    - '^\s*onKeyUp(\(.*\))?$'
+    - '^\s*onLButtonDoubleClick(\(.*\))?$'
+    - '^\s*onLButtonDown(\(.*\))?$'
+    - '^\s*onLButtonUp(\(.*\))?$'
+    - '^\s*onMButtonDoubleClick(\(.*\))?$'
+    - '^\s*onMButtonDown(\(.*\))?$'
+    - '^\s*onMButtonUp(\(.*\))?$'
+    - '^\s*onMouseEnter(\(.*\))?$'
+    - '^\s*onMouseLeave(\(.*\))?$'
+    - '^\s*onMouseMove(\(.*\))?$'
+    - '^\s*onMouseWheel(\(.*\))?$'
+    - '^\s*onRButtonDown(\(.*\))?$'
+    - '^\s*onRButtonUp(\(.*\))?$'
+    - '^\s*onReturn(\(.*\))?$'
+    - '^\s*onSetCursor(\(.*\))?$'
+    - '^\s*onUserText(\(.*\))?$'
 
-# x, y and z used by SketchUp API.
+# Allow common names in SketchUp 3d modeling.
 Naming/UncommunicativeMethodParamName:
   AllowedNames:
     - 'x'
     - 'y'
     - 'z'
+    - 'u'
+    - 'v'
+    - 'uv'
     - 'ip'
-    - '_x'
-    - '_y'
-    - '_z'
-    - '_ip'
 
 Layout/AlignHash:
   EnforcedColonStyle: table
@@ -43,23 +66,16 @@ Layout/AlignHash:
 Layout/EndOfLine:
   Enabled: false
 
-# False positive when there is an empty line between require, using etc and
-# first method.
-Layout/EmptyLinesAroundModuleBody:
-  Enabled: false
-Layout/EmptyLinesAroundClassBody:
-  Enabled: false
-
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   EnforcedStyle: consistent
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   EnforcedStyle: consistent
 
 # Class vars can be used, but only if you know why you are using them.
 Style/ClassVars:
   Enabled: false
 
-# False positives for modules documented in one file but not another, e.g.
+# False positives for modules documented in one file but not another, e.g. the
 # extension wrapper.
 Style/Documentation:
   Enabled: false
@@ -69,6 +85,14 @@ Style/Documentation:
 # even cater for boolean false as input.
 Style/DoubleNegation:
   Enabled: false
+
+# Don't use frozen string literals in the registrar as it clashes with the need
+# to force character encoding on __FILE__.
+# See https://forums.sketchup.com/t/force-encoding-when-using-frozens-tring-literals/109362.
+# TODO: Use frozen string literals in registrar.
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'src/*.rb'
 
 # Single quotes being faster is hardly measurable and only affects parse time.
 # Enforcing double quotes reduces the times where you need to change them

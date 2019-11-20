@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Eneroth
   module ScaledTapeMeasure
     # Generic tool superclass with functionality relevant in all tools.

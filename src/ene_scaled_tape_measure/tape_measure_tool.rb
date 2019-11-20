@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Eneroth
   module ScaledTapeMeasure
     Sketchup.require "#{PLUGIN_ROOT}/tool"
@@ -88,6 +90,8 @@ module Eneroth
 
         bb
       end
+
+      # TODO: Add instructor
 
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
