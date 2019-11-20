@@ -261,11 +261,13 @@ module Eneroth
         edge_l = hovered_edge_length(ip)
         return "#{(edge_l * @@scale.factor).to_l} (#{@@scale})" if edge_l
         return unless ip.instance
+        return unless ip.instance.respond_to?(:definition)
 
+        bb = ip.instance.definition.bounds
         # #height refers to depth and #depth to height in API.
-        "#{(ip.instance.bounds.width * @@scale.factor).to_l} x "\
-        "#{(ip.instance.bounds.height * @@scale.factor).to_l} x "\
-        "#{(ip.instance.bounds.depth * @@scale.factor).to_l} x "\
+        "#{(bb.width * @@scale.factor).to_l} x "\
+        "#{(bb.height * @@scale.factor).to_l} x "\
+        "#{(bb.depth * @@scale.factor).to_l} x "\
         "(#{@@scale})"
       end
 
