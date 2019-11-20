@@ -20,8 +20,7 @@ module Eneroth
     )
 
     EXTENSION.creator     = "Eneroth"
-    EXTENSION.description =
-      "Measure model with respect to customs scale."
+    EXTENSION.description = "Measure model with respect to customs scale."
     EXTENSION.version     = "1.0.0"
     EXTENSION.copyright   = "2019, #{EXTENSION.creator}"
     Sketchup.register_extension(EXTENSION, true)
