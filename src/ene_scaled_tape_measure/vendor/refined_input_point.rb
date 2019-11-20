@@ -21,7 +21,7 @@ module RefinedInputPoint
       end
     end
 
-    # Model axis input point is positioned at.
+    # Model axis input point is getting its position from.
     #
     # @return [Geom::Vector3d]
     def axis
@@ -57,6 +57,17 @@ module RefinedInputPoint
       return unless local_position.on_plane?(face.plane)
 
       face
+    end
+
+    # Instance the InputPoint is getting its position from.
+    #
+    # @return
+    # [Sketchup::ComponentInstance, Sketchup::Group, Sketchup::Image, nil]
+    def instance
+      return unless instance_path
+      return if instance_path.empty?
+
+      instance_path.root
     end
 
     private

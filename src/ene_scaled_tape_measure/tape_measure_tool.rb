@@ -52,7 +52,7 @@ module Eneroth
       def draw(view)
         case @state
         when STATE_START
-          view.tooltip = @start_ip.tooltip
+          view.tooltip = start_tooltip
         when STATE_MEASURE
           view.tooltip = output
 
@@ -235,6 +235,34 @@ module Eneroth
         return "" unless @end_ip.valid?
 
         "#{length} (#{@@scale})"
+      end
+
+      # @return [String]
+      def start_tooltip
+        "#{@start_ip.tooltip}\n#{hover_info(@start_ip)}"
+      end
+
+      # @return [Length, nil]
+      def hovered_edge_length(ip)
+        edge = ip.source_edge
+        return unless edge
+
+        vector = edge.end.position - edge.start.position
+
+        vector.transform(ip.transformation).length
+      end
+
+      # @return [String]
+      def hover_info(ip)
+        edge_l = hovered_edge_length(ip)
+        return "#{(edge_l * @@scale.factor).to_l} (#{@@scale})" if edge_l
+        return unless ip.instance
+
+        # #height refers to depth and #depth to height in API.
+        "#{(ip.instance.bounds.width * @@scale.factor).to_l} x "\
+        "#{(ip.instance.bounds.height * @@scale.factor).to_l} x "\
+        "#{(ip.instance.bounds.depth * @@scale.factor).to_l} x "\
+        "(#{@@scale})"
       end
 
       def update_status_text
