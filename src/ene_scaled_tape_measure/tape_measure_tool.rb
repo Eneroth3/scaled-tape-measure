@@ -56,6 +56,9 @@ module Eneroth
         when STATE_MEASURE
           view.tooltip = output
 
+          # In native Tape Measure this line is infinite, but as this tool
+          # doesn't create GuidLines a line between the arrow end and InputPoint
+          # is more descriptive.
           view.line_stipple = "_"
           view.draw(GL_LINES, [@end_ip.position, measure_end])
 
