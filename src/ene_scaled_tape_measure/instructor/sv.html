@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>TITLE</title>
+    <link href="instructor.css" rel="stylesheet">
+    <!--
+      Toggle whether Mac or Win text is shown.
+      On Windows Ctrl is used as copy modifier key but on Mac Option is used.
+    -->
+    <style type="text/css">
+      .mac .win, .win .mac { display: none; }
+    </style>
+    <script type="text/javascript">
+      window.onload = function() {
+        isMac = navigator.platform.indexOf('Win') == -1;
+        document.body.className = isMac ? 'mac' : 'win';
+      }
+    </script>
+  </head>
+  <body>
+    <img src="animation.gif" alt="" />
+    <h1>Skalat måttband</h1>
+    <ul>
+      <li>Mät modell med avseende på vald skala.</li>
+    </ul>
+    <h2>Användning</h2>
+    <ol>
+      <li>Skriv in en skala, t.ex. 1:100.</li>
+      <li>Klicka startpunkt för mätning.</li>
+      <li>Klicka slutpunkt för mätning</li>
+    </ol>
+    <h2>Specialtangenter</h2>
+    <ul>
+      <li>Shift = Lås nuvarande inferens.</li>
+      <li>Piltangenter = Lås till axel.</li>
+    </ul>
+    <p>
+      <a target="_blank" href="https://extensions.sketchup.com/pl/content/eneroth-solid-tools">Extension Warehouse</a>
+      <!-- TODO: Update link. -->
+    </p>
+  </body>
+</html>

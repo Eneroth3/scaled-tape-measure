@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>TITLE</title>
+    <link href="instructor.css" rel="stylesheet">
+    <!--
+      Toggle whether Mac or Win text is shown.
+      On Windows Ctrl is used as copy modifier key but on Mac Option is used.
+    -->
+    <style type="text/css">
+      .mac .win, .win .mac { display: none; }
+    </style>
+    <script type="text/javascript">
+      window.onload = function() {
+        isMac = navigator.platform.indexOf('Win') == -1;
+        document.body.className = isMac ? 'mac' : 'win';
+      }
+    </script>
+  </head>
+  <body>
+    <img src="animation.gif" alt="" />
+    <h1>Scale Tape Measure</h1>
+    <ul>
+      <li>Measure model with respect to customs scale.</li>
+    </ul>
+    <h2>Tool Operation</h2>
+    <ol>
+      <li>Type in a scale, e.g. 1:100.</li>
+      <li>Click at starting point of measurement.</li>
+      <li>Click at ending point of measurement.</li>
+    </ol>
+    <h2>Modifier Keys</h2>
+    <ul>
+      <li>Shift = Lock to current inference.</li>
+      <li>Arrow Keys = Lock to axis.</li>
+    </ul>
+    <p>
+      <a target="_blank" href="https://extensions.sketchup.com/pl/content/eneroth-solid-tools">Extension Warehouse</a>
+      <!-- TODO: Update link. -->
+    </p>
+  </body>
+</html>

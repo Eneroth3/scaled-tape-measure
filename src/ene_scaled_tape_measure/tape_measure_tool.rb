@@ -91,7 +91,10 @@ module Eneroth
         bb
       end
 
-      # TODO: Add instructor
+      # @see http://ruby.sketchup.com/Sketchup/Tool.html
+      def getInstructorContentDirectory
+        "#{PLUGIN_ROOT}/instructor/#{OB.lang}.html"
+      end
 
       # @api
       # @see https://ruby.sketchup.com/Sketchup/Tool.html
